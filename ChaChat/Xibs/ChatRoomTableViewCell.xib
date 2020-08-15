@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellId" rowHeight="191" id="pn6-cm-8jd" customClass="ChatRoomTableViewCell" customModule="ChaChat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="429" height="191"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pn6-cm-8jd" id="7aG-kC-RPh">
+                <rect key="frame" x="0.0" y="0.0" width="429" height="191"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hisananelmodel" translatesAutoresizingMaskIntoConstraints="NO" id="0oh-ko-4u5">
+                        <rect key="frame" x="15" y="65.5" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="0oh-ko-4u5" secondAttribute="height" multiplier="1:1" id="BjE-R2-8eN"/>
+                            <constraint firstAttribute="width" constant="60" id="uBd-Fj-IIM"/>
+                        </constraints>
+                    </imageView>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="メッセージがここに入ります" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S4M-Iz-Vhg">
+                        <rect key="frame" x="85" y="25" width="230" height="141"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="230" id="nQl-75-gHa"/>
+                        </constraints>
+                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EZI-ns-vOa">
+                        <rect key="frame" x="320" y="151.5" width="69" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="S4M-Iz-Vhg" firstAttribute="top" secondItem="7aG-kC-RPh" secondAttribute="top" constant="25" id="2O2-1P-jHr"/>
+                    <constraint firstAttribute="trailing" secondItem="EZI-ns-vOa" secondAttribute="trailing" constant="40" id="6vB-Vu-zoV"/>
+                    <constraint firstItem="EZI-ns-vOa" firstAttribute="leading" secondItem="S4M-Iz-Vhg" secondAttribute="trailing" constant="5" id="Gv4-dF-jcI"/>
+                    <constraint firstItem="0oh-ko-4u5" firstAttribute="leading" secondItem="7aG-kC-RPh" secondAttribute="leading" constant="15" id="WAw-zs-4ct"/>
+                    <constraint firstItem="0oh-ko-4u5" firstAttribute="centerY" secondItem="7aG-kC-RPh" secondAttribute="centerY" id="c7G-nV-Xgj"/>
+                    <constraint firstAttribute="bottom" secondItem="S4M-Iz-Vhg" secondAttribute="bottom" constant="25" id="jJL-Ch-me1"/>
+                    <constraint firstItem="S4M-Iz-Vhg" firstAttribute="leading" secondItem="0oh-ko-4u5" secondAttribute="trailing" constant="10" id="mWL-89-iou"/>
+                    <constraint firstItem="S4M-Iz-Vhg" firstAttribute="bottom" secondItem="EZI-ns-vOa" secondAttribute="bottom" id="ymS-hS-s1z"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="dataLabel" destination="EZI-ns-vOa" id="aAt-J5-2Lz"/>
+                <outlet property="messageTextView" destination="S4M-Iz-Vhg" id="d1u-0b-ilu"/>
+                <outlet property="messageTextViewWithConstraint" destination="nQl-75-gHa" id="y4W-aq-wO7"/>
+                <outlet property="userImageView" destination="0oh-ko-4u5" id="N2i-RX-DZh"/>
+            </connections>
+            <point key="canvasLocation" x="-593" y="-138"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="hisananelmodel" width="250" height="250"/>
+    </resources>
+</document>
