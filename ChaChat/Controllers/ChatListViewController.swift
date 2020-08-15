@@ -21,6 +21,11 @@ class ChatListViewController: UIViewController{
         navigationController?.navigationBar.barTintColor = .rgb(red: 39,green:49,blue:69)
         navigationItem.title = "トーク"
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        // チャットリストの画面からSignUpの画面を表示する
+        let storyboard = UIStoryboard(name:"SignUp", bundle:nil)
+        let signUpViewController = storyboard.instantiateViewController(withIdentifier: "SignUpViewController")
+        self.present(signUpViewController, animated: true, completion: nil)
     }
 }
 
