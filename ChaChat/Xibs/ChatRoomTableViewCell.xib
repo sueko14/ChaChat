@@ -22,14 +22,14 @@
                             <constraint firstAttribute="width" constant="60" id="uBd-Fj-IIM"/>
                         </constraints>
                     </imageView>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="メッセージがここに入ります" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S4M-Iz-Vhg">
+                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="メッセージがここに入ります" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S4M-Iz-Vhg">
                         <rect key="frame" x="85" y="25" width="230" height="141"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="230" id="nQl-75-gHa"/>
                         </constraints>
                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EZI-ns-vOa">
@@ -38,25 +38,50 @@
                         <color key="textColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="メッセージがここに入ります" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mcQ-Ig-YGc">
+                        <rect key="frame" x="179" y="25" width="230" height="141"/>
+                        <color key="backgroundColor" red="0.60392156862745094" green="0.8784313725490196" blue="0.38039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="230" id="sPB-FL-Dwk"/>
+                        </constraints>
+                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cdU-Ib-oNg">
+                        <rect key="frame" x="139" y="146.5" width="32" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="S4M-Iz-Vhg" firstAttribute="top" secondItem="7aG-kC-RPh" secondAttribute="top" constant="25" id="2O2-1P-jHr"/>
                     <constraint firstAttribute="trailing" secondItem="EZI-ns-vOa" secondAttribute="trailing" constant="40" id="6vB-Vu-zoV"/>
                     <constraint firstItem="EZI-ns-vOa" firstAttribute="leading" secondItem="S4M-Iz-Vhg" secondAttribute="trailing" constant="5" id="Gv4-dF-jcI"/>
+                    <constraint firstAttribute="trailing" secondItem="mcQ-Ig-YGc" secondAttribute="trailing" constant="20" id="Oig-rd-pMT"/>
+                    <constraint firstItem="mcQ-Ig-YGc" firstAttribute="top" secondItem="7aG-kC-RPh" secondAttribute="top" constant="25" id="S4y-xh-skH"/>
                     <constraint firstItem="0oh-ko-4u5" firstAttribute="leading" secondItem="7aG-kC-RPh" secondAttribute="leading" constant="15" id="WAw-zs-4ct"/>
                     <constraint firstItem="0oh-ko-4u5" firstAttribute="centerY" secondItem="7aG-kC-RPh" secondAttribute="centerY" id="c7G-nV-Xgj"/>
+                    <constraint firstItem="mcQ-Ig-YGc" firstAttribute="leading" secondItem="cdU-Ib-oNg" secondAttribute="trailing" constant="8" id="cPp-gb-HvE"/>
+                    <constraint firstAttribute="bottom" secondItem="mcQ-Ig-YGc" secondAttribute="bottom" constant="25" id="g2Q-bb-gJX"/>
                     <constraint firstAttribute="bottom" secondItem="S4M-Iz-Vhg" secondAttribute="bottom" constant="25" id="jJL-Ch-me1"/>
                     <constraint firstItem="S4M-Iz-Vhg" firstAttribute="leading" secondItem="0oh-ko-4u5" secondAttribute="trailing" constant="10" id="mWL-89-iou"/>
+                    <constraint firstAttribute="bottom" secondItem="cdU-Ib-oNg" secondAttribute="bottom" constant="30" id="qhP-YC-VNh"/>
                     <constraint firstItem="S4M-Iz-Vhg" firstAttribute="bottom" secondItem="EZI-ns-vOa" secondAttribute="bottom" id="ymS-hS-s1z"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="dataLabel" destination="EZI-ns-vOa" id="aAt-J5-2Lz"/>
-                <outlet property="messageTextView" destination="S4M-Iz-Vhg" id="d1u-0b-ilu"/>
-                <outlet property="messageTextViewWithConstraint" destination="nQl-75-gHa" id="y4W-aq-wO7"/>
+                <outlet property="myDateLabel" destination="cdU-Ib-oNg" id="pT8-Ug-u9z"/>
+                <outlet property="myMessageTextView" destination="mcQ-Ig-YGc" id="UhX-8A-AxG"/>
+                <outlet property="myMessageTextViewWithConstraint" destination="sPB-FL-Dwk" id="iaG-vO-NRK"/>
+                <outlet property="partnerDateLabel" destination="EZI-ns-vOa" id="j0L-T3-oCU"/>
+                <outlet property="partnerMessageTextView" destination="S4M-Iz-Vhg" id="d1u-0b-ilu"/>
+                <outlet property="partnerMessageTextViewWithConstraint" destination="nQl-75-gHa" id="y4W-aq-wO7"/>
                 <outlet property="userImageView" destination="0oh-ko-4u5" id="N2i-RX-DZh"/>
             </connections>
-            <point key="canvasLocation" x="-593" y="-138"/>
+            <point key="canvasLocation" x="-593.47826086956525" y="-138.28125"/>
         </tableViewCell>
     </objects>
     <resources>

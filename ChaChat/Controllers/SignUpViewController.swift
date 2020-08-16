@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 import FirebaseAuth
+import PKHUD
 
 class SignUpViewController: UIViewController{
     
@@ -24,7 +25,10 @@ class SignUpViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupViews()
+    }
+    
+    private func setupViews(){
         profileImageButton.layer.cornerRadius = 85
         profileImageButton.layer.borderWidth = 1
         profileImageButton.layer.borderColor = UIColor.rgb(red: 240, green: 240, blue: 240).cgColor
@@ -32,6 +36,7 @@ class SignUpViewController: UIViewController{
         
         profileImageButton.addTarget(self, action: #selector(tappedProfileImageButton), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(tappedRegisterButton), for: .touchUpInside)
+        alreadyHaveAccountButton.addTarget(self, action: #selector(tappedAlreadyHaveAccountButton), for: .touchUpInside)
         
         emailTextField.delegate = self
         passwordTextField.delegate = self
@@ -39,6 +44,17 @@ class SignUpViewController: UIViewController{
         
         registerButton.isEnabled = false
         registerButton.backgroundColor = .rgb(red: 100, green: 100, blue: 100)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    @objc private func tappedAlreadyHaveAccountButton(){
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+        self.navigationController?.pushViewController(loginViewController, animated: true)
     }
     
     @objc private func tappedProfileImageButton(){
@@ -50,8 +66,9 @@ class SignUpViewController: UIViewController{
     
     // registerボタンが押された時の挙動
     @objc private func tappedRegisterButton(){
-        guard let image = profileImageButton.imageView?.image else { return }
-        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+        let image = profileImageButton.imageView?.image ?? UIImage(named: "person_icon")
+        guard let uploadImage = image?.jpegData(compressionQuality: 0.3) else { return }
+        HUD.show(.progress)
         
         let fileName = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child("profile_image").child(fileName)
@@ -59,6 +76,7 @@ class SignUpViewController: UIViewController{
         storageRef.putData(uploadImage, metadata: nil) { (metadata,err) in
             if let err = err {
                 print("firestorageへの情報保存に失敗しました。\(err)")
+                HUD.hide()
                 return
             }
             print("firestorageへの情報保存に成功しました。")
@@ -66,6 +84,8 @@ class SignUpViewController: UIViewController{
             storageRef.downloadURL{(url,err) in
                 if let err = err {
                     print("firestorageからのダウンロードに失敗しました。\(err)")
+                    HUD.hide()
+                    return
                 }
                 guard let urlString = url?.absoluteString else { return }
                 //print("urlString: \(urlString)")
@@ -80,6 +100,7 @@ class SignUpViewController: UIViewController{
         Auth.auth().createUser(withEmail: email, password: password ) { (res, err) in
             if let err = err {
                 print("認証情報の保存に失敗しました。\(err)")
+                HUD.hide()
                 return
             }
             print("認証情報の保存に成功しました")
@@ -91,19 +112,26 @@ class SignUpViewController: UIViewController{
                 "username": username,
                 "createdAt": Timestamp(),
                 "profileImageUrl": profileImageUrl
-            ] as [String: Any]
+                ] as [String: Any]
             
             Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
                 if let err = err {
                     print("Firestoreの保存に失敗しました。\(err)")
+                    HUD.hide()
                     return
                 }
                 print("Firestoreの保存に成功しました。")
+                HUD.hide()
                 // 保存が成功したらSignUp画面を閉じてChatListViewControllerに戻る
                 self.dismiss(animated: true, completion: nil)
             }
             
         }
+    }
+    
+    // textField以外を押したらキーボード下げる
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 
