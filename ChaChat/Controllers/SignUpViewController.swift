@@ -50,6 +50,31 @@ class SignUpViewController: UIViewController{
     
     // registerボタンが押された時の挙動
     @objc private func tappedRegisterButton(){
+        guard let image = profileImageButton.imageView?.image else { return }
+        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+        
+        let fileName = NSUUID().uuidString
+        let storageRef = Storage.storage().reference().child("profile_image").child(fileName)
+        
+        storageRef.putData(uploadImage, metadata: nil) { (metadata,err) in
+            if let err = err {
+                print("firestorageへの情報保存に失敗しました。\(err)")
+                return
+            }
+            print("firestorageへの情報保存に成功しました。")
+            
+            storageRef.downloadURL{(url,err) in
+                if let err = err {
+                    print("firestorageからのダウンロードに失敗しました。\(err)")
+                }
+                guard let urlString = url?.absoluteString else { return }
+                //print("urlString: \(urlString)")
+                self.createUserToFirestore(profileImageUrl: urlString)
+            }
+        }
+    }
+    
+    private func createUserToFirestore(profileImageUrl: String){
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
         Auth.auth().createUser(withEmail: email, password: password ) { (res, err) in
@@ -64,7 +89,8 @@ class SignUpViewController: UIViewController{
             let docData = [
                 "email": email,
                 "username": username,
-                "createdAt": Timestamp()
+                "createdAt": Timestamp(),
+                "profileImageUrl": profileImageUrl
             ] as [String: Any]
             
             Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
@@ -73,7 +99,6 @@ class SignUpViewController: UIViewController{
                     return
                 }
                 print("Firestoreの保存に成功しました。")
-                
                 // 保存が成功したらSignUp画面を閉じてChatListViewControllerに戻る
                 self.dismiss(animated: true, completion: nil)
             }

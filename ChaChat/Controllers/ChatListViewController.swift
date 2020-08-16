@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import Firebase
 
 class ChatListViewController: UIViewController{
     
     private let cellId = "cellId"
+    private var users = [User]()
     @IBOutlet weak var chatListTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +24,40 @@ class ChatListViewController: UIViewController{
         navigationItem.title = "トーク"
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         
-        // チャットリストの画面からSignUpの画面を表示する
-        let storyboard = UIStoryboard(name:"SignUp", bundle:nil)
-        let signUpViewController = storyboard.instantiateViewController(withIdentifier: "SignUpViewController")
-        self.present(signUpViewController, animated: true, completion: nil)
+        // ログイン情報が端末にない場合
+        if Auth.auth().currentUser?.uid == nil {
+            // チャットリストの画面からSignUpの画面を表示する
+            let storyboard = UIStoryboard(name:"SignUp", bundle:nil)
+            let signUpViewController = storyboard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
+            signUpViewController.modalPresentationStyle = .fullScreen // フルスクリーンでmodalにする
+            self.present(signUpViewController, animated: true, completion: nil)
+        }
+    }
+    
+    // ライフサイクルのメソッド。viewDidLoadの後に呼び出される
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchUserInfoFromFirestore()
+    }
+    
+    private func fetchUserInfoFromFirestore(){
+        Firestore.firestore().collection("users").getDocuments{ (snapshots,err) in
+            if let err = err {
+                print("users情報の取得に失敗しました。\(err)")
+                return
+            }
+            snapshots?.documents.forEach({(snapshot) in
+                let dic = snapshot.data()
+                let user = User.init(dic: dic)
+                
+                self.users.append(user)
+                self.chatListTableView.reloadData()
+                
+                self.users.forEach { (user) in
+                    print("user.username: \(user.username)")
+                }
+            })
+        }
     }
 }
 
@@ -38,11 +70,12 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource{
     }
     // chatListTableViewの表示数
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return users.count
     }
     // Cellに表示する情報
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatListTableViewCell
+        cell.user = users[indexPath.row]
         return cell
     }
     
@@ -56,6 +89,18 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource{
 
 // Cell内にイメージやラベルを設定しているため、セルクラスも作る
 class ChatListTableViewCell: UITableViewCell{
+    
+    var user: User? {
+        didSet{
+            if let user = user{
+            partnerLabel.text = user.username
+            //userImageView.image = user?.profileImageUrl
+            dateLabel.text = dateFormatterForDatelabel(date: user.createdAt.dateValue())
+            latestMessageLabel.text = user.email
+            }
+        }
+    }
+    
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var latestMessageLabel: UILabel!
     @IBOutlet weak var partnerLabel: UILabel!
@@ -69,6 +114,14 @@ class ChatListTableViewCell: UITableViewCell{
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    private func dateFormatterForDatelabel(date: Date) -> String{
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.timeStyle = .short
+        formatter.locale = Locale(identifier: "ja_JP")
+        return formatter.string(from: date)
     }
 }
 
